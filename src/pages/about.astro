@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+<BaseLayout title="About | Engineering Portfolio">
+  <Header />
+  <main class="section-wrap inner-page">
+    <div class="page-intro">
+      <p class="eyebrow">ABOUT</p>
+      <h1>Engineering at the<br /><span>hardware–software boundary.</span></h1>
+      <p>I am a Computer Science student interested in how software interacts with processors, peripherals, operating systems and real-world machines. I use hands-on projects to explore system behavior, validate designs and understand performance constraints.</p>
+    </div>
+    <div class="about-grid">
+      <section class="about-panel">
+        <p class="eyebrow">CURRENT INTERESTS</p>
+        <h2>What I'm exploring</h2>
+        <ul class="interest-list">
+          <li>Real-time operating systems and scheduling</li>
+          <li>Linux kernel interfaces, device drivers and DMA</li>
+          <li>ROS 2, sensor fusion and autonomous navigation</li>
+          <li>Embedded sensing, motor control and deterministic data pipelines</li>
+        </ul>
+      </section>
+      <section class="about-panel">
+        <p class="eyebrow">TECHNICAL TOOLKIT</p>
+        <h2>Tools &amp; technologies</h2>
+        <div class="skill-group"><b>Languages</b><span>C · C++ · Python</span></div>
+        <div class="skill-group"><b>Systems</b><span>Linux · AArch64 · RTOS · QEMU</span></div>
+        <div class="skill-group"><b>Embedded</b><span>STM32 · UART · I²C · DMA · Raspberry Pi</span></div>
+        <div class="skill-group"><b>Robotics</b><span>ROS 2 · IMU · Encoders · Sensor Fusion · Nav2 (in development)</span></div>
+        <div class="skill-group"><b>Engineering</b><span>Git · CMake · Google Test · debugging · profiling</span></div>
+      </section>
+    </div>
+    <section class="contact-panel">
+      <p class="eyebrow">CONTACT &amp; CODE</p>
+      <h2>Explore the work.</h2>
+      <p>For source code and implementation notes, visit the public repositories.</p>
+      <a class="button button-primary" href="https://github.com/Lengfeng88" target="_blank" rel="noreferrer">GitHub · Lengfeng88 ↗</a>
+      <p class="muted-note">Add a preferred contact email and a public resume PDF before sharing this page with recruiters.</p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

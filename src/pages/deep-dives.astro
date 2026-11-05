@@ -1,0 +1,100 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+<BaseLayout title="Technical Deep Dives | Engineering Portfolio" description="System architectures, engineering decisions, validation methods and experimental results.">
+  <Header />
+  <main class="section-wrap inner-page">
+    <div class="page-intro">
+      <p class="eyebrow">ENGINEERING NOTEBOOK</p>
+      <h1>Technical <span>deep dives.</span></h1>
+      <p>How each system is structured, why key design choices were made, how behavior is tested and what the available evidence actually demonstrates. Planned work is labeled separately from verified implementation.</p>
+    </div>
+
+    <section class="deep-dive" id="aarch64-rtos">
+      <div class="deep-kicker">01 / AARCH64 RTOS</div>
+      <h2>From exception entry to preemptive scheduling</h2>
+      <p class="deep-lede">A bare-metal AArch64 execution environment on QEMU virt, built from the boot path upward.</p>
+      <div class="deep-grid">
+        <article class="deep-panel">
+          <h3>Architecture</h3>
+          <p>Boot and exception-level setup lead into the EL1 kernel. The Generic Timer drives periodic interrupts; the GIC routes interrupts; the scheduler selects the next runnable task and restores its saved context.</p>
+          <div class="tag-row"><span>Boot</span><span>EL1</span><span>GIC</span><span>Generic Timer</span><span>Context Switch</span></div>
+        </article>
+        <article class="deep-panel">
+          <h3>Design decisions</h3>
+          <ul><li>Establish a minimal single-core kernel before adding SMP complexity.</li><li>Keep interrupt handling and scheduling responsibilities explicit.</li><li>Use QEMU to make boot and scheduling behavior reproducible during development.</li></ul>
+        </article>
+        <article class="deep-panel wide">
+          <h3>Validation and evidence</h3>
+          <p>The M4 single-core test exercised timer-driven preemptive round-robin switching between two tasks. The output showed tasks resuming from their previous loop counts, rather than restarting, followed by a successful completion message. Multicore PSCI and load-aware scheduling are exploratory and should not be represented as fully validated production behavior.</p>
+        </article>
+      </div>
+      <a class="text-link" href="https://github.com/Lengfeng88/aarch64-rtos" target="_blank" rel="noreferrer">View implementation ↗</a>
+    </section>
+
+    <section class="deep-dive" id="accelerator-stack">
+      <div class="deep-kicker">02 / LINUX DRIVER + C++ RUNTIME</div>
+      <h2>Command submission, DMA and completion</h2>
+      <p class="deep-lede">A layered software path between a Linux user process and a QEMU PCIe accelerator device.</p>
+      <div class="deep-grid">
+        <article class="deep-panel">
+          <h3>Architecture</h3>
+          <p>Application code calls a C++ runtime. The runtime manages buffers, streams, fences and command submission. A Linux kernel driver provides device access through ioctl, mmap, poll and read interfaces, while the device model exposes queue and DMA behavior.</p>
+          <div class="tag-row"><span>User Runtime</span><span>Linux Driver</span><span>PCIe</span><span>DMA</span><span>SQ / CQ</span></div>
+        </article>
+        <article class="deep-panel">
+          <h3>Engineering decisions</h3>
+          <ul><li>Track in-flight submissions rather than assuming a single outstanding command.</li><li>Resolve buffer references according to command semantics.</li><li>Make reset and completion behavior explicit in the queue lifecycle.</li><li>Instrument active submissions to support profiling.</li></ul>
+        </article>
+        <article class="deep-panel wide">
+          <h3>Validation focus</h3>
+          <p>Tests and debugging have focused on queue lifecycle, DMA interrupt completion, multiple in-flight commands, reset behavior and runtime/driver interaction. Performance claims should be added only with reproducible measurements and the corresponding hardware or emulator configuration.</p>
+        </article>
+      </div>
+      <a class="text-link" href="https://github.com/Lengfeng88/accel-systems-stack" target="_blank" rel="noreferrer">View implementation ↗</a>
+    </section>
+
+    <section class="deep-dive" id="autonomous-car">
+      <div class="deep-kicker">03 / ROS 2 AUTONOMOUS CAR</div>
+      <h2>Multi-sensor state estimation and navigation</h2>
+      <p class="deep-lede">A differential-drive vehicle architecture that separates deterministic low-level control from higher-level autonomy.</p>
+      <div class="deep-grid">
+        <article class="deep-panel">
+          <h3>System architecture</h3>
+          <p><strong>STM32H743:</strong> encoder acquisition, motor-control interfaces, sensor timestamps and bounded-latency low-level tasks.</p>
+          <p><strong>Raspberry Pi 5:</strong> ROS 2 nodes, sensor synchronization, state estimation, localization and navigation.</p>
+          <div class="tag-row"><span>STM32H743</span><span>Raspberry Pi 5</span><span>ROS 2</span><span>Nav2</span></div>
+        </article>
+        <article class="deep-panel">
+          <h3>Sensor fusion concept</h3>
+          <p>Combine IMU angular-rate/acceleration data, wheel-encoder odometry and LiDAR/depth observations. The candidate state includes planar pose, velocity and gyroscope bias; online bias estimation is intended to reduce drift over time.</p>
+          <div class="tag-row"><span>IMU</span><span>Wheel Odometry</span><span>LiDAR / Depth</span><span>EKF / ESKF</span></div>
+        </article>
+        <article class="deep-panel wide">
+          <h3>Planned experiments</h3>
+          <ul><li>Measure timestamp alignment and transport latency across MCU and ROS 2.</li><li>Characterize encoder odometry and IMU bias/drift independently before fusion.</li><li>Compare dead-reckoning against fused localization using repeatable trajectories.</li><li>Evaluate navigation success, path tracking error and recovery behavior in controlled tests.</li></ul>
+          <p class="muted-note">This is the project design direction, not a claim that these experiments or performance measurements are already complete.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="deep-dive" id="sensor-platform">
+      <div class="deep-kicker">04 / STM32 SENSOR PIPELINE</div>
+      <h2>Reliable sensor acquisition and packet transport</h2>
+      <p class="deep-lede">A focused hardware bring-up and data-integrity project that supports the broader embedded robotics work.</p>
+      <div class="deep-grid">
+        <article class="deep-panel">
+          <h3>Data path</h3>
+          <p>MPU6050 over I²C → STM32H743 acquisition and packet encoder → UART transport → Raspberry Pi 5 user-space C++ client → telemetry and validation.</p>
+        </article>
+        <article class="deep-panel">
+          <h3>Failure handling</h3>
+          <p>Sequence numbers, timestamps, framing and CRC checks provide a basis for detecting dropped, corrupted or delayed packets. Timeout and recovery behavior can be tested through software-in-the-loop and fault injection.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

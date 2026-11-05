@@ -1,0 +1,64 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+<BaseLayout title="Projects | Engineering Portfolio" description="Engineering projects in operating systems, Linux system software, autonomous robotics and embedded systems.">
+  <Header />
+  <main class="section-wrap inner-page">
+    <div class="page-intro">
+      <p class="eyebrow">ENGINEERING WORK</p>
+      <h1>Projects &amp; <span>implementations.</span></h1>
+      <p>Selected engineering work across low-level software, embedded platforms and autonomous robotics. Project status is stated explicitly; design plans are distinguished from implemented and measured results.</p>
+    </div>
+
+    <section class="detail-project" id="aarch64-rtos">
+      <div class="detail-number">01 / OPERATING SYSTEMS</div>
+      <div class="detail-content">
+        <h2>AArch64 RTOS</h2>
+        <p>A bare-metal AArch64 real-time operating system targeting QEMU virt. The project explores boot flow, exception-level handling, interrupt control, task scheduling and multicore bring-up without depending on Linux or a pre-existing RTOS.</p>
+        <div class="tag-row"><span>C</span><span>AArch64</span><span>QEMU</span><span>GIC</span><span>Generic Timer</span><span>Scheduling</span></div>
+        <p class="evidence"><strong>Current evidence:</strong> timer-driven preemptive round-robin context switching has been exercised on the single-core foundation. SMP and load-aware scheduling remain experimental extensions.</p>
+        <a class="text-link" href="https://github.com/Lengfeng88/aarch64-rtos" target="_blank" rel="noreferrer">Source repository ↗</a>
+        <a class="text-link secondary-link" href="/deep-dives#aarch64-rtos">Technical deep dive ↗</a>
+      </div>
+    </section>
+
+    <section class="detail-project" id="accelerator-stack">
+      <div class="detail-number">02 / SYSTEM SOFTWARE</div>
+      <div class="detail-content">
+        <h2>Accelerator Systems Stack</h2>
+        <p>A Linux PCIe DMA driver and C++ user-space runtime for experimenting with accelerator command submission, completion handling, buffer management and synchronization.</p>
+        <div class="tag-row"><span>C</span><span>C++</span><span>Linux Driver</span><span>PCIe DMA</span><span>ioctl</span><span>Profiler</span></div>
+        <p class="evidence"><strong>Engineering focus:</strong> submission/completion queue lifecycle, DMA interrupts, ioctl/mmap/poll interfaces, in-flight submissions, reset behavior and profiling instrumentation.</p>
+        <a class="text-link" href="https://github.com/Lengfeng88/accel-systems-stack" target="_blank" rel="noreferrer">Source repository ↗</a>
+        <a class="text-link secondary-link" href="/deep-dives#accelerator-stack">Technical deep dive ↗</a>
+      </div>
+    </section>
+
+    <section class="detail-project" id="autonomous-car">
+      <div class="detail-number">03 / AUTONOMOUS ROBOTICS</div>
+      <div class="detail-content">
+        <h2>Real-Time Multi-Sensor Fusion and Autonomous Navigation on ROS 2</h2>
+        <p>A differential-drive autonomous car project designed to combine inertial sensing, wheel odometry and LiDAR/depth sensing for localization and autonomous navigation. The project emphasizes the real-time boundary between MCU-level motor/sensor handling and ROS 2 autonomy software.</p>
+        <div class="tag-row"><span>ROS 2</span><span>C++</span><span>Raspberry Pi 5</span><span>STM32H743</span><span>IMU</span><span>Wheel Encoders</span><span>LiDAR / Depth</span><span>Nav2</span></div>
+        <p class="evidence"><strong>Planned architecture:</strong> STM32H743 handles low-level timing, encoder acquisition and motor-control interfaces; Raspberry Pi 5 runs ROS 2, state estimation and navigation. The estimation design includes online gyroscope-bias handling, with IMU, wheel odometry and LiDAR/depth observations as complementary inputs.</p>
+        <p class="muted-note">This project is in its architecture/build phase. Hardware integration, ROS 2 nodes, navigation tests and quantitative results will be added as they are implemented and verified.</p>
+        <a class="text-link" href="/deep-dives#autonomous-car">Architecture deep dive ↗</a>
+      </div>
+    </section>
+
+    <section class="detail-project" id="sensor-platform">
+      <div class="detail-number">04 / EMBEDDED SYSTEMS</div>
+      <div class="detail-content">
+        <h2>Real-Time Sensor Platform</h2>
+        <p>A sensor pipeline connecting STM32H743 firmware and an MPU6050 IMU to a Raspberry Pi 5 user-space client. The project emphasizes reliable hardware bring-up, packet integrity, timing and measurable end-to-end behavior.</p>
+        <div class="tag-row"><span>STM32H743</span><span>MPU6050</span><span>I²C</span><span>UART</span><span>Raspberry Pi 5</span><span>C/C++</span></div>
+        <p class="evidence"><strong>Engineering focus:</strong> register-level sensor access, timestamped packet framing, sequence/CRC validation, transport and telemetry. The Pi-side design uses a Linux user-space client rather than assuming a custom kernel module.</p>
+        <span class="muted-note">Repository link will be added when the project repository is public.</span>
+        <a class="text-link secondary-link" href="/deep-dives#sensor-platform">Technical deep dive ↗</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
