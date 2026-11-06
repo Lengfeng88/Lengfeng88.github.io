@@ -2,3 +2,5 @@ node_modules/
 dist/
 .astro/
 .DS_Store
+# Local backup files
+*.backup
